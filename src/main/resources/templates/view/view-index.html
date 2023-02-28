@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        header {
+            width: 100vw;
+            height: 10vh;
+            background-color: #000;
+        }
+
+        .main__container {
+            height: 90vh;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .main__nav {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            height: 100%;
+            width: 12vw;
+            background-color: #fff;
+            color: #8a98ac;
+            box-shadow: 0 8px 24px rgb(229 228 230 / 40%);
+        }
+
+        .main__nav > ul {
+            list-style: none;
+            padding: 0 15px 0 0;
+        }
+
+        .main__nav > ul li {
+            border-bottom: 1px solid white;
+            padding: 8px 24px;
+            font-weight: bold;
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
+            /*font-size: larger;*/
+        }
+
+        .main__nav > ul li:hover {
+            cursor: pointer;
+            color: #8C00F9;
+            background-color: #F9FBFD;
+            transition: 0.3s;
+        }
+
+        .main__detail__container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 8;
+            width: 80vw;
+            padding: 16px 24px;
+        }
+
+        .main__search_container {
+            border: 1px solid #8C00F9;
+            border-radius: 32px;
+            background: #FFFFFF 0 0 no-repeat padding-box;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            height: 64px;
+        }
+
+        .main__search_input {
+            padding-left: 32px;
+            width: 100%;
+            font-size: 22px;
+            background-color: transparent;
+            border: none;
+            outline: none;
+        }
+
+        .main__table_container {
+        }
+    </style>
+</head>
+<body>
+<div>
+    <header></header>
+    <div class="main__container">
+        <nav class="main__nav">
+            <ul>
+                <li>
+                    수강생
+                </li>
+                <li>
+                    기수
+                </li>
+                <li>
+                    대체실습
+                </li>
+                <li>
+                    강사
+                </li>
+                <li>
+                    국시원
+                </li>
+                <li>
+                    미입력 데이터
+                </li>
+            </ul>
+        </nav>
+        <div class="main__detail__container">
+            <div class="main__search_container">
+                <input class="main__search_input" placeholder="검색"/>
+            </div>
+            <div class="main__table_container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

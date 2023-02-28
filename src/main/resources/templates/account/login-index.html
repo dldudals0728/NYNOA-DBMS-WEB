@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .login__container {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login__box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 28px;
+            border: 1px solid #C6C6C6;
+            border-radius: 6px;
+            box-shadow: 0 5px 8px 0 rgb(68 68 68 / 4%);
+            width: 24%;
+            height: 24%;
+        }
+
+        .login__input {
+            padding: 14px 17px 13px;
+            border: 1px solid #DADADA;
+            outline: none;
+        }
+
+        .login__input::placeholder {
+            color: #DADADA;
+        }
+
+        .login__button {
+            background-color: #0DA2DE;
+            color: white;
+            font-size: 24px;
+            border-radius: 6px;
+            border: solid 1px rgba(0, 0, 0, .15);
+            box-sizing: border-box;
+            padding: 13px 0 13px;
+        }
+
+        .login__select {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            width: 50%;
+            flex-direction: row;
+            justify-content: flex-start;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            border: 1px solid #C6C6C6;
+            padding: 10px 14px;
+            width: 20%;
+            min-width: 47px;
+            text-align: center;
+            vertical-align: center;
+        }
+
+        li:hover {
+            background-color: #0DA2DE;
+            color: white;
+            border-color: #0DA2DE;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .login__type__sel {
+            background-color: #0DA2DE;
+            color: white;
+            border-color: #0DA2DE;
+        }
+    </style>
+</head>
+<body>
+<div class="login__container">
+    <form class="login__box" method="post" action="/login">
+        <div class="login__select">
+            <ul>
+                <li value="0" onclick="selectLoginType(this)" class="login_type login__type__sel"
+                    style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;">기관장
+                </li>
+                <li value="1" onclick="selectLoginType(this)" class="login_type"
+                    style="border-top-right-radius: 6px; border-bottom-right-radius: 6px;">원장
+                </li>
+            </ul>
+            <ul style="justify-content: flex-end">
+                <li value="2" onclick="selectLoginType(this)" class="login_type" style="border-radius: 6px">관리자</li>
+            </ul>
+        </div>
+        <div style="display: flex; flex-direction: column">
+            <input type="hidden" id="userType" name="userType" value="0"/>
+            <input placeholder="ID" class="login__input" name="id"
+                   style="border-top-left-radius: 6px; border-top-right-radius: 6px;"/>
+            <input placeholder="password" class="login__input" name="password" type="password"
+                   style="border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;"/>
+        </div>
+        <button class="login__button">로그인</button>
+    </form>
+</div>
+<script>
+    function selectLoginType(e) {
+        const loginTypes = document.getElementsByClassName("login_type");
+        const selLoginType = document.getElementById("userType");
+        console.log(loginTypes);
+        for (let i = 0; i < loginTypes.length; i++) {
+            loginTypes[i].classList.remove("login__type__sel");
+        }
+
+        loginTypes[e.value].classList.add("login__type__sel");
+        selLoginType.value = e.value;
+    }
+</script>
+</body>
+</html>
