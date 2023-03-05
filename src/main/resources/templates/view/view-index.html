@@ -2,54 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>NYNOA DBMS</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <style>
         body {
             margin: 0;
         }
 
         header {
+            background-color: #FFF;
             width: 100vw;
-            height: 10vh;
-            background-color: #000;
+            height: 8vh;
+            border-bottom: 2px solid rgb(85, 130, 124, 0.7);
+            position: fixed;
+            top: 0;
+            z-index: 10;
         }
 
         .main__container {
-            height: 90vh;
+            height: 92vh;
             display: flex;
             flex-direction: row;
+            margin-top: 8vh;
+            margin-left: 12vw;
         }
 
         .main__nav {
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            height: 100%;
+            height: 92vh;
             width: 12vw;
-            background-color: #fff;
+            background-color: #FFF;
             color: #8a98ac;
             box-shadow: 0 8px 24px rgb(229 228 230 / 40%);
+            position: fixed;
+            left: 0;
+            top: 8vh;
         }
 
-        .main__nav > ul {
+        .main__nav_list {
             list-style: none;
             padding: 0 15px 0 0;
         }
 
-        .main__nav > ul li {
-            border-bottom: 1px solid white;
+        .main__menu__style {
             padding: 8px 24px;
             font-weight: bold;
             border-top-right-radius: 16px;
             border-bottom-right-radius: 16px;
-            /*font-size: larger;*/
         }
 
-        .main__nav > ul li:hover {
+        .main__menu__style:hover {
             cursor: pointer;
+        }
+
+        .main__menu__style:hover:not(.main__menu_active) {
+            cursor: pointer;
+            color: #6259CA;
+            transition: 0.3s;
+        }
+
+        .main__menu_active {
+            background: linear-gradient(to bottom right, #9e88f5 0%, #6259ca 100%);
+            color: #FFF !important;
+        }
+
+        .main__menu:hover {
+            cursor: pointer;
+        }
+
+        .main__menu:hover:not(.main__menu_active) {
             color: #8C00F9;
             background-color: #F9FBFD;
             transition: 0.3s;
+        }
+
+        .main__sub_menu {
+            display: none;
+            list-style: none;
+            overflow: hidden;
+            padding: 0 0 0 15px;
+        }
+
+        .main__sub_active {
+            color: #8C00F9;
+            background-color: #F9FBFD;
+        }
+
+        .main__sub_menu_active {
+            color: #6259CA;
+        }
+
+        @keyframes slide_up {
+            0% {
+                height: auto;
+            }
+            100% {
+                height: 0;
+            }
+        }
+
+        @keyframes slide_down {
+            0% {
+                height: 0;
+            }
+            100% {
+                height: auto;
+            }
         }
 
         .main__detail__container {
@@ -58,16 +118,88 @@
             flex-grow: 8;
             width: 80vw;
             padding: 16px 24px;
+            background-color: #F2F3F8;
+        }
+
+        .main__detail_title_box {
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .main__detail_title span {
+            margin-right: 8px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .main__detail_title span:first-child {
+            color: #6259CA !important;
+        }
+
+        #create_button {
+            display: inline-block;
+            border-radius: 6px;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .main__detail_box {
+            background-color: #FFF;
+            padding: 12px 16px;
+            box-shadow: 0 3px 9px 0 rgb(169 184 200 / 15%);
+            margin-bottom: 1.5rem;
+            display: none;
         }
 
         .main__search_container {
-            border: 1px solid #8C00F9;
-            border-radius: 32px;
-            background: #FFFFFF 0 0 no-repeat padding-box;
+            border: 1px solid #EAEDF1;
+            border-radius: 8px;
             font-weight: 400;
             display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: stretch;
+            justify-content: stretch;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .main__total_cnt {
+            display: flex;
             align-items: center;
-            height: 64px;
+            color: #86909A;
+            background-color: #F1F1F98A;
+            border: 1px solid #EAEDF1;
+        }
+
+        .main__search_select {
+            width: 140px;
+            padding: 12px 16px;
+            border: 1px solid #EAEDF1;
+            outline: none;
+        }
+
+        select option[value=""][disabled] {
+            display: none;
+        }
+
+        #main__search_input {
+            width: auto;
+            padding: 12px 16px;
+            display: flex;
+            flex: 1;
+            border: 1px solid #EAEDF1;
+            outline: none;
+        }
+
+        .main__search_button {
+            padding: 12px 16px;
+            border: 1px solid #6A62CC;
+            background-color: #6259CA;
+            color: #FFF;
         }
 
         .main__search_input {
@@ -81,6 +213,55 @@
 
         .main__table_container {
         }
+
+        table {
+            border: 1px solid #EAEDF1;
+            border-radius: 8px 8px 0 0;
+            border-collapse: collapse;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        thead {
+
+        }
+
+        th {
+            background-color: #8C00F8;
+            color: #FFF;
+            white-space: nowrap;
+            padding: 8px 12px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #E9E9E9;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .main__table_sel_row {
+            background: rgba(106, 98, 204, 25%) !important;
+        }
+
+        .main__table_button {
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .main__data_mod_button {
+            color: #FFF;
+            background: #6259CA;
+            border: none #6A62CC;
+        }
+
+        .main__data_del_button {
+            color: #FFF;
+            background: #F82649;
+            border: none #E62A45;
+        }
     </style>
 </head>
 <body>
@@ -88,43 +269,439 @@
     <header></header>
     <div class="main__container">
         <nav class="main__nav">
-            <ul>
+            <ul class="main__nav_list">
                 <li>
-                    수강생
+                    <div class="main__menu main__menu__style">수강생</div>
+                    <ul class="main__sub_menu">
+                        <li>
+                            <div class="main__menu__style" onclick="showTable('수강생', '전체')">전체 보기</div>
+                        </li>
+                        <li>
+                            <div class="main__menu__style">1기</div>
+                        </li>
+                        <li>
+                            <div class="main__menu__style">2기</div>
+                        </li>
+                        <li>
+                            <div class="main__menu__style">3기</div>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    기수
+                    <div class="main__menu main__menu__style">수업 관리</div>
+                    <ul class="main__sub_menu">
+                        <li>
+                            <div class="main__menu__style">전체 보기</div>
+                        </li>
+                        <li>
+                            <div class="main__menu__style">1기</div>
+                        </li>
+                        <li>
+                            <div class="main__menu__style">2기</div>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    대체실습
+                    <div class="main__menu main__menu__style">대체실습</div>
+                    <ul class="main__sub_menu">
+                        <li>
+                            <div class="main__menu__style">전체 보기</div>
+                        </li>
+                        <li>
+                            <div class="main__menu__style">1기</div>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    강사
+                    <div class="main__menu main__menu__style" onclick="showTable('강사')">강사</div>
                 </li>
                 <li>
-                    국시원
+                    <div class="main__menu main__menu__style">연계 실습기관</div>
                 </li>
                 <li>
-                    미입력 데이터
+                    <div class="main__menu main__menu__style">국시원</div>
+                </li>
+                <li>
+                    <div class="main__menu main__menu__style">미입력 데이터</div>
                 </li>
             </ul>
         </nav>
         <div class="main__detail__container">
-            <div class="main__search_container">
-                <input class="main__search_input" placeholder="검색"/>
+            <div class="main__detail_title_box">
+                <div class="main__detail_title">
+                    <span id="detail_main_title">수강생</span>
+                    <span id="detail_sub_title">전체</span>
+                </div>
+                <a id="create_button" class="main__table_button main__search_button">+
+                    수강생 추가
+                </a>
             </div>
-            <div class="main__table_container">
-                <table>
-                    <thead>
-                    <tr>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <div class="main__detail_box">
+                <div class="main__search_container">
+                    <div class="main__total_cnt">총 조회 건수</div>
+                    <select class="main__search_select" id="search_keyword">
+                        <option value="" disabled selected>column 선택</option>
+                    </select>
+                    <input id="main__search_input" placeholder="검색"/>
+                    <button class="main__search_button" type="button">검색</button>
+                </div>
+            </div>
+            <div class="main__detail_box">
+                <div class="main__table_container">
+                    <table id="db_table">
+                        <colgroup></colgroup>
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    // 동적 view script: menu 선택 변수 관리
+    const dbTableObj = {
+        "수강생": "STUDENTS_TB",
+        "수업 관리": "COURSES_TB",
+        "대체실습": "TEMP_TRAINING_TB",
+        "강사": "TEACHER_TB",
+        "연계 실습기관": "CENTER_TB",
+        "국시원": "EXAM_TB",
+        "미입력 데이터": "NONE_NULL_TB",
+    }
+
+    const menuSelectObj = {
+        main: "",
+        sub: "",
+    }
+
+    // 동적 view script: menu 선택 style
+    const menuList = $(".main__menu");
+    for (let i = 0; i < menuList.length; i++) {
+        const subMenuDom = $(menuList[i]).next();
+        if (subMenuDom.length !== 0) {
+            $(menuList[i]).click(() => {
+                const subMenu = $(subMenuDom[0]);
+                openCloseSubMenu($(menuList[i]), subMenu);
+
+                const subMenuList = subMenu.children();
+                for (let j = 0; j < subMenuList.length; j++) {
+                    $(subMenuList[j]).click(() => {
+                        activeSubMenu($(menuList[i]), $(subMenuList[j]));
+                    })
+                }
+            })
+        } else {
+            $(menuList[i]).click(() => {
+                activeMenu($(menuList[i]));
+                showDetailView();
+            })
+        }
+    }
+
+    function showDetailView() {
+        const detailBox = $(".main__detail_box");
+        const detailBoxDisplay = detailBox.css("display");
+
+        const titleBox = $(".main__detail_title_box");
+        const titleBoxDisplay = titleBox.css("display");
+        if (detailBoxDisplay === "none" && titleBoxDisplay === "none") {
+            console.log("show on !!");
+            console.log(detailBox);
+            console.log(titleBox);
+            detailBox.css("display", "block");
+            titleBox.css("display", "flex");
+        }
+    }
+
+    function hideDetailView() {
+        console.log("hide detail view");
+        const detailBox = $(".main__detail_box");
+        const detailBoxDisplay = detailBox.css("display");
+
+        const titleBox = $(".main__detail_title_box");
+        const titleBoxDisplay = titleBox.css("display");
+        console.log("detailBoxDisplay:", detailBoxDisplay, "titleBoxDisplay:", titleBoxDisplay)
+        if (detailBoxDisplay === "block" && titleBoxDisplay === "flex") {
+            console.log("hide on !!");
+            console.log(detailBox);
+            console.log(titleBox);
+            detailBox.css("display", "none");
+            titleBox.css("display", "none");
+        }
+    }
+
+    function activeSubMenu(menu, subMenu) {
+        console.log("sub menu clicked.");
+        const menuName = $(subMenu[0]).children()[0].innerHTML !== undefined ? $(subMenu[0]).children()[0].innerHTML : "";
+        const activatedSubMenu = $(".main__sub_menu_active");
+        if (activatedSubMenu.length !== 0 && subMenu[0] === activatedSubMenu[0]) {
+            console.log("you clicked same sub menu.")
+            return;
+        }
+        console.log("run");
+        console.log("서브 메뉴 이름:", menuName);
+        changeMenuTitleNLink(null, menuName);
+        inactiveOtherSubMenu();
+        if (!menu.hasClass("main__menu_active")) {
+            menu.addClass("main__menu_active");
+        }
+        subMenu.toggleClass("main__sub_menu_active");
+    }
+
+    function inactiveOtherSubMenu() {
+        const activatedSubMenu = $(".main__sub_menu_active");
+        if (activatedSubMenu.length !== 0) {
+            activatedSubMenu.removeClass("main__sub_menu_active");
+        }
+    }
+
+    function activeMenu(menu) {
+        const activatedMenu = $(".main__menu_active");
+        const menuName = menu[0].innerHTML !== undefined ? menu[0].innerHTML : "";
+        if (activatedMenu.length !== 0 && menu[0] === activatedMenu[0]) {
+            console.log("you clicked same menu.")
+            return;
+        }
+        console.log("run");
+        console.log("메뉴 이름:", menuName);
+        changeMenuTitleNLink(menuName, "");
+
+        inactiveOtherMenu();
+        inactiveOtherSubMenu();
+        closeOtherSubMenu();
+        menu.toggleClass("main__menu_active");
+    }
+
+    function inactiveOtherMenu() {
+        const activatedMenu = $(".main__menu_active");
+        if (activatedMenu.length !== 0) {
+            activatedMenu.removeClass("main__menu_active");
+        }
+    }
+
+    function openCloseSubMenu(menu, subMenu) {
+        if (subMenu.hasClass("toggle") && menu.hasClass("main__sub_active")) {
+            subMenu.slideUp(300);
+            hideDetailView();
+        } else {
+            subMenu.slideDown(300);
+            showDetailView();
+            inactiveOtherMenu();
+            inactiveOtherSubMenu();
+            closeOtherSubMenu();
+            const menuName = menu[0].innerHTML !== undefined ? menu[0].innerHTML : "";
+            changeMenuTitleNLink(menuName, "");
+            clearTable();
+        }
+        menu.toggleClass("main__sub_active");
+        subMenu.toggleClass("toggle");
+    }
+
+    function closeOtherSubMenu() {
+        const openedMenu = $(".toggle");
+        if (openedMenu.length !== 0) {
+            openedMenu.removeClass("toggle");
+            openedMenu.slideUp(300);
+        }
+
+        const activatedMenu = $(".main__sub_active");
+        if (activatedMenu.length !== 0) {
+            activatedMenu.removeClass("main__sub_active");
+        }
+    }
+
+    function changeMenuTitleNLink(mainMenuTitle, subMenuTitle) {
+        const menu_title = document.querySelector("#detail_main_title");
+        const sub_title = document.querySelector("#detail_sub_title");
+        const create_button = $("#create_button");
+
+        if (mainMenuTitle !== null) {
+            menu_title.innerHTML = mainMenuTitle;
+            create_button.html(`+ ${mainMenuTitle} 추가`);
+            console.log(create_button.innerHTML);
+            create_button.attr("href", `/insert?table=${dbTableObj[mainMenuTitle]}`);
+        }
+
+        if (subMenuTitle !== null) {
+            sub_title.innerHTML = subMenuTitle;
+        }
+    }
+
+    function clearTable() {
+        const tableDom = document.querySelector("#db_table");
+        const tableElem = {
+            tableColgroup: $(tableDom).children("colgroup:eq(0)"),
+            tableHead: $(tableDom).children("thead:eq(0)"),
+            tableBody: $(tableDom).children("tbody:eq(0)"),
+        };
+
+        tableElem.tableHead.empty();
+        tableElem.tableBody.empty();
+    }
+
+    function showTable(main, sub) {
+        const tableDom = document.querySelector("#db_table");
+        const tableElem = {
+            tableColgroup: $(tableDom).children("colgroup:eq(0)"),
+            tableHead: $(tableDom).children("thead:eq(0)"),
+            tableBody: $(tableDom).children("tbody:eq(0)"),
+        };
+
+        const selectDom = document.querySelector("#search_keyword");
+        const selectElem = $(selectDom);
+
+        console.log("main:", main);
+        console.log("sub:", sub);
+
+        if (main === "수강생") {
+            if (sub === "전체") {
+                let colStr = "";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+                colStr += "<col />";
+
+                tableElem.tableColgroup.empty();
+                tableElem.tableColgroup.append(colStr);
+
+                let thStr = "";
+                thStr += "<tr>";
+                thStr += "<th>ID</th>";
+                thStr += "<th>이름</th>";
+                thStr += "<th>주민등록번호</th>";
+                thStr += "<th>전화번호</th>";
+                thStr += "<th>자격증</th>";
+                thStr += "<th>기수</th>";
+                thStr += "<th>반</th>";
+                thStr += "<th>대체실습 기수</th>";
+                thStr += "<th>응시 회차</th>";
+                thStr += "<th>관리</th>";
+                thStr += "<th>삭제</th>";
+                thStr += "</tr>";
+
+                tableElem.tableHead.empty();
+                tableElem.tableHead.append(thStr);
+
+                let tdStr = "";
+                tdStr += "<tr onclick='selectTableRow(this)'>";
+                tdStr += "<td>1</td>";
+                tdStr += "<td>이영민</td>";
+                tdStr += "<td>990728-1234567</td>";
+                tdStr += "<td>010-1234-5678</td>";
+                tdStr += "<td>일반</td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td><button class='main__data_mod_button main__table_button'>상세보기/관리</button></td>";
+                tdStr += "<td><button class='main__data_del_button main__table_button'>삭제</button></td>";
+                tdStr += "</tr>";
+
+                tdStr += "<tr onclick='selectTableRow(this)'>";
+                tdStr += "<td>2</td>";
+                tdStr += "<td>이성민</td>";
+                tdStr += "<td>980829-7654321</td>";
+                tdStr += "<td>010-1111-1111</td>";
+                tdStr += "<td>자격증(사복)</td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td><button class='main__data_mod_button main__table_button'>상세보기/관리</button></td>";
+                tdStr += "<td><button class='main__data_del_button main__table_button'>삭제</button></td>";
+                tdStr += "</tr>";
+
+                tdStr += "<tr onclick='selectTableRow(this)'>";
+                tdStr += "<td>3</td>";
+                tdStr += "<td>이광민</td>";
+                tdStr += "<td>123456-7890123</td>";
+                tdStr += "<td>010-1234-5678</td>";
+                tdStr += "<td>일반</td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td><button class='main__data_mod_button main__table_button'>상세보기/관리</button></td>";
+                tdStr += "<td><button class='main__data_del_button main__table_button'>삭제</button></td>";
+                tdStr += "</tr>";
+
+                tdStr += "<tr onclick='selectTableRow(this)'>";
+                tdStr += "<td>4</td>";
+                tdStr += "<td>이영솔</td>";
+                tdStr += "<td>990728-1234567</td>";
+                tdStr += "<td>010-1234-5678</td>";
+                tdStr += "<td>일반</td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td></td>";
+                tdStr += "<td><button class='main__data_mod_button main__table_button'>상세보기/관리</button></td>";
+                tdStr += "<td><button class='main__data_del_button main__table_button'>삭제</button></td>";
+                tdStr += "</tr>";
+
+                tableElem.tableBody.empty();
+                tableElem.tableBody.append(tdStr);
+
+                let selectStr = "";
+                selectStr += "<option value='' disabled selected>키워드 선택</option>";
+                selectStr += "<option value='1'>이름</option>";
+                selectStr += "<option value='2'>주민등록번호</option>";
+                selectStr += "<option value='3'>전화번호</option>";
+                selectStr += "<option value='4'>자격증</option>";
+                selectStr += "<option value='5'>주소</option>";
+                selectStr += "<option value='6'>본적주소</option>";
+                selectStr += "<option value='7'>기수</option>";
+                selectStr += "<option value='8'>반</option>";
+                selectStr += "<option value='9'>대체실습 기수</option>";
+                selectStr += "<option value='10'>응시 회차</option>";
+
+                selectElem.empty();
+                selectElem.append(selectStr);
+            }
+        } else if (main === "강사") {
+            let thStr = "";
+            thStr += "<tr>";
+            thStr += "<th>ID</th>";
+            thStr += "<th>이름</th>";
+            thStr += "<th>주민등록번호</th>";
+            thStr += "<th>자격증</th>";
+            thStr += "<th>발급일</th>";
+            thStr += "<th>경력사항</th>";
+            thStr += "</tr>";
+
+            tableElem.tableHead.empty();
+            tableElem.tableHead.append(thStr);
+
+            let selectStr = "";
+            selectStr += "<option value='' disabled selected>키워드 선택</option>";
+            selectStr += "<option value='1'>이름</option>";
+            selectStr += "<option value='2'>주민등록번호</option>";
+            selectStr += "<option value='3'>자격증</option>";
+            selectStr += "<option value='4'>발급일</option>";
+            selectStr += "<option value='5'>경력사항</option>";
+
+            selectElem.empty();
+            selectElem.append(selectStr);
+        }
+    }
+
+    function selectTableRow(selectedRow) {
+        const row = $(selectedRow);
+        const preSelRow = $(".main__table_sel_row");
+        if (preSelRow.length !== 0) {
+            preSelRow.removeClass("main__table_sel_row");
+        }
+
+        row.addClass("main__table_sel_row");
+    }
+</script>
 </body>
 </html>
