@@ -3,8 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>수강생 입력</title>
+    <style>
+        .student__img_container {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .student__img-preview {
+            width: 140px;
+            height: 160px;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 160px;
+            color: #999;
+        }
+
+        .student__img {
+            background: #6259CA;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            display: inline-block;
+            padding: 8px 12px;
+        }
+
+        .info__message {
+            color: #FF7FA6 !important;
+            font-size: 18px;
+            font-weight: 300;
+            margin-top: 3px;
+        }
+    </style>
 </head>
 <body>
-    <h1>수강생 입력 페이지</h1>
+<h1>수강생 입력 페이지</h1>
+<div class="student__img_container">
+    <div class="student__img-preview">학생 사진</div>
+    <div style="display: flex; flex-direction: column; margin-left: 12px;">
+        <div>
+            <label for="file_input" class="student__img">
+                파일 업로드
+                <input type="file" id="file_input" style="display: none;"/>
+            </label>
+        </div>
+        <span class="info__message">.jpg, .jpeg, .png 파일만 업로드 가능합니다.</span>
+        <span class="info__message">사진의 사이즈는 480x640 사이즈 이내로 가능합니다.</span>
+    </div>
+</div>
+<script>
+    function studentImgChange() {
+
+    }
+</script>
 </body>
 </html>
